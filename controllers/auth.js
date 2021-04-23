@@ -1,5 +1,5 @@
 const { response } = require("express");
-const Usuario = require("../models/usuario");
+const { Usuario } = require("../models");
 const bcryptjs = require("bcryptjs");
 const { generarJWT } = require("../helpers/generar.jwt");
 const { googleVerify } = require("../helpers/google-validator");
@@ -61,7 +61,7 @@ const googleSignIn = async (req, res = response) => {
         img,
         correo,
         google: true,
-        password: ":P"
+        password: ":P",
       };
       usuario = new Usuario(data);
       await usuario.save();
@@ -79,12 +79,12 @@ const googleSignIn = async (req, res = response) => {
 
     res.json({
       usuario,
-      token: jwt
+      token: jwt,
     });
   } catch (error) {
     res.status(400).json({
       err: "Token no valido - jwt",
-      error
+      error,
     });
   }
 };
